@@ -90,7 +90,7 @@ module.exports = (async () => {
 
   // Fire it up
   return new Promise(function(resolve, reject) {
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT;
     app.listen(port, function(error) {
       if (error) reject(error);
       else {

@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 (async () => {
-  const { connect } = require('../src/db');
+  const { connect } = require('../../src/db');
 
   try {
     connect(process.env.MONGODB_URI);
@@ -18,16 +18,27 @@ if (process.env.NODE_ENV === 'production') {
     return console.error('Could not connect to mongo', e);
   }
 
-  const { Book } = require('../src/models');
-  const { terms } = require('./seed.json');
+  const argTerms = process.argv.slice(2).map(s => s.trim()).filter(Boolean);
+  const terms = argTerms.length ? argTerms : require('./terms.json');
 
-  // TODO: bulk import books from gAPI Books
+  const { fetchBooks } = require('./runner');
+  const { limitParallel } = require('./util/limit-parallel');
+
+  // NOTE: This takes a couple minutes
+  const importedTerms = await limitParallel(2, terms, term =>
+    fetchBooks({ term }).then(count => ({
+      term,
+      count,
+    }))
+  );
+
+  console.log(`Imported: `, importedTerms);
 })().then(
-  function() {
+  () => {
     require('mongoose').connection.close();
   },
-  function(err) {
-    console.error('oh noz!', err);
+  err => {
+    console.error('Oh snap, something when wrong: ', err);
     require('mongoose').connection.close();
   }
 );

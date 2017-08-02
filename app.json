@@ -1,0 +1,24 @@
+{
+  "name": "udacity-myreads-server",
+  "description": "Book search stuff, bruv",
+  "repository": "https://github.com/kevinjamesus86/udacity-myreads-server",
+  "stack": "heroku-16",
+  "scripts": {
+    "postdeploy": "yarn run seed"
+  },
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "buildpacks": [{
+    "url": "heroku/nodejs"
+  }],
+  "addons": [{
+    "plan": "mongolab:sandbox",
+    "as": "MONGODB"
+  }],
+  "formation": {
+    "web": {
+      "size": "free"
+    }
+  }
+}

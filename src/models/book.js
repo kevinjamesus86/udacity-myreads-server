@@ -7,6 +7,10 @@ const bookSchema = new Schema(
       type: String,
     },
 
+    term: {
+      type: String,
+    },
+
     links: {
       self: {
         type: String,
@@ -42,7 +46,6 @@ const bookSchema = new Schema(
 
     publishedDate: {
       type: String,
-      default: '',
     },
 
     description: {
@@ -59,18 +62,17 @@ const bookSchema = new Schema(
   }
 );
 
-bookSchema.index({ publishedDate: -1 });
+bookSchema.index({ term: 1 });
 
 bookSchema.index(
   {
+    term: 'text',
     title: 'text',
-    subtitle: 'text',
-    description: 'text',
+    authors: 'text',
   },
   {
     weights: {
-      title: 10,
-      subtitle: 5,
+      term: 1.5,
     },
   }
 );

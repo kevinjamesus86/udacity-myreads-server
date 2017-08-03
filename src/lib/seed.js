@@ -22,17 +22,19 @@ if (process.env.NODE_ENV === 'production') {
   const terms = argTerms.length ? argTerms : require('./terms.json');
 
   const { fetchBooks } = require('./runner');
-  const { limitParallel } = require('./util/limit-parallel');
 
-  // NOTE: This takes a couple minutes
-  const importedTerms = await limitParallel(2, terms, term =>
-    fetchBooks({ term }).then(count => ({
-      term,
-      count,
-    }))
-  );
+  // NOTE: This _may_ take a couple minutes
+  let importedTerms = [];
+  for (const term of terms) {
+    importedTerms.push(
+      await fetchBooks({ term }).then(count => ({
+        term,
+        count,
+      }))
+    );
+  }
 
-  console.log(`Imported: `, importedTerms);
+  console.log(`Imported:\n`, importedTerms);
 })().then(
   () => {
     require('mongoose').connection.close();

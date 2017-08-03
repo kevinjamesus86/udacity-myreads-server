@@ -1,8 +1,8 @@
 const request = require('./util/request');
 const { Book } = require('../../src/models');
 
-exports.fetchBooks = ({ term, pages = 2, page = 0, limit = 40 }) => {
-  console.log(`Fetching `, { term, page, limit });
+exports.fetchBooks = ({ term }) => {
+  console.log(`Fetching:`, { term });
   return request
     .get({
       url: 'https://www.googleapis.com/books/v1/volumes',
@@ -11,94 +11,133 @@ exports.fetchBooks = ({ term, pages = 2, page = 0, limit = 40 }) => {
       },
       params: {
         q: term,
+        maxResults: 30,
         printType: 'books',
-        orderBy: 'relevance',
         langRestrict: 'en',
-        showPreorders: true,
-        startIndex: page * limit,
-        maxResults: limit,
         key: process.env.GAPI_BOOKS_API_KEY,
       },
     })
     .then(r => JSON.parse(r))
-    .then(async arg => {
-      const { items, totalItems } = arg;
-      if (!items) return Promise.reject(arg);
-      const { upsertedCount } = await importGapiBooks(items);
-      return {
-        totalItems,
-        upsertedCount,
-      };
-    })
-    .then(async ({ totalItems, upsertedCount }) => {
-      return page + 1 < pages && totalItems > page * limit
-        ? // Recurse !
-          upsertedCount +
-          (await exports.fetchBooks({
-            term,
-            pages,
-            page: page + 1,
-            limit,
-          }))
-        : upsertedCount;
-    });
+    .then(arg => arg.items || Promise.reject(arg))
+    .then(filterLegitGapiBooks)
+    .then(mapAssign({ term }))
+    .then(mapGapiBooksToBooks)
+    .then(mapDedupeTitles)
+    .then(importGapiBooks);
+};
+
+const filterLegitGapiBooks = books => {
+  return books.filter(
+    ({ volumeInfo }) =>
+      volumeInfo &&
+      volumeInfo.title &&
+      volumeInfo.authors &&
+      volumeInfo.publishedDate &&
+      volumeInfo.description &&
+      volumeInfo.imageLinks
+  );
+};
+
+const mapAssign = props => items =>
+  items.map(item => Object.assign(item, props));
+
+const mapGapiBooksToBooks = books => {
+  return books.map(({ id, term, volumeInfo }) =>
+    new Book({
+      _id: id,
+      links: {
+        self: `${process.env.API_ORIGIN}/api/books/${id}`,
+      },
+      term: term,
+      title: volumeInfo.title.trim(),
+      subtitle: volumeInfo.subtitle,
+      pageCount: volumeInfo.pageCount,
+      authors: volumeInfo.authors,
+      categories: volumeInfo.categories,
+      publisher: volumeInfo.publisher,
+      publishedDate: volumeInfo.publishedDate,
+      description: volumeInfo.description,
+      thumbnailHref:
+        volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail,
+    }).toJSON()
+  );
+};
+
+const mapDedupeTitles = books => {
+  const entries = books.map(b => [b.title, b]);
+  return [...new Map(entries).values()];
 };
 
 const importGapiBooks = books => {
-  const requestIds = books.map(book => book.id);
-  return Book.find({ _id: { $in: requestIds } }, `_id`, {
-    lean: true,
-  })
+  const upsertedZero = {
+    upsertedCount: 0,
+  };
+
+  if (!books.length) {
+    return Promise.resolve(upsertedZero);
+  }
+
+  return Book.find(
+    {
+      $or: [
+        {
+          _id: {
+            $in: books.map(b => b._id),
+          },
+        },
+        {
+          title: {
+            $in: books.map(b => b.title),
+          },
+        },
+      ],
+    },
+    `_id title`,
+    {
+      lean: true,
+    }
+  )
     .then(docs => {
       // We need to import some books
-      if (docs.length !== books.length) {
-        // Books we have
+      if (docs.length < books.length) {
+        // Books we have by id
         const ownIds = new Set(docs.map(doc => doc._id));
 
+        // Books we have by title
+        const ownTitles = new Set(docs.map(doc => doc.title));
+
         // Books we need
-        const booksToBulkWrite = books
-          .filter(book => !ownIds.has(book.id))
-          // BulkWrite doesn't care about our schema
-          .map(gapiBookToBook);
+        const booksToBulkWrite = books.filter(
+          book =>
+            // We don't have this one by id
+            !ownIds.has(book._id) &&
+            // One word title, otherwise don't duplicate
+            (!book.title.match(/\s/) || !ownTitles.has(book.title))
+        );
+
+        console.log(
+          `UpsertingBooks: ${booksToBulkWrite.length} books to upsert`
+        );
 
         // Doit
-        return Book.bulkWrite(
-          booksToBulkWrite.map(book => ({
-            updateOne: {
-              filter: { _id: book._id },
-              update: book,
-              upsert: true,
-            },
-          }))
-        );
+        return booksToBulkWrite.length
+          ? Book.bulkWrite(
+              booksToBulkWrite.map(book => ({
+                updateOne: {
+                  filter: { _id: book._id },
+                  update: book,
+                  upsert: true,
+                },
+              }))
+            )
+          : upsertedZero;
       }
       // no doc
-      return {
-        upsertedCount: 0,
-      };
+      return upsertedZero;
     })
+    .then(r => r.upsertedCount)
     .catch(err => {
       console.error('BulkWrite op failure:', err);
       return Promise.reject(err);
     });
-};
-
-const gapiBookToBook = ({ id, volumeInfo }) => {
-  return new Book({
-    _id: id,
-    links: {
-      self: `${process.env.API_ORIGIN}/api/books/${id}`,
-    },
-    title: volumeInfo.title,
-    subtitle: volumeInfo.subtitle,
-    pageCount: volumeInfo.pageCount,
-    authors: volumeInfo.authors,
-    categories: volumeInfo.categories,
-    publisher: volumeInfo.publisher,
-    publishedDate: volumeInfo.publishedDate,
-    description: volumeInfo.description,
-    thumbnailHref:
-      volumeInfo.imageLinks &&
-      (volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail),
-  }).toJSON();
 };

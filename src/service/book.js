@@ -1,53 +1,18 @@
-const querystring = require('querystring');
-const request = require('./util/request');
 const { Book } = require('../models');
 
-// TODO: bulk import and then query _our_ books
-exports.search = ({ limit, page, query }) => {
-  return request
-    .get({
-      url: 'https://www.googleapis.com/books/v1/volumes',
-      headers: {
-        Accept: 'application/json',
-      },
-      params: {
-        q: query,
-        printType: 'books',
-        orderBy: 'relevance',
-        langRestrict: 'en',
-        showPreorders: true,
-        startIndex: page * limit,
-        maxResults: limit,
-        key: process.env.GAPI_BOOKS_API_KEY,
-      },
-    })
-    .then(r => JSON.parse(r))
-    .then(r => {
-      // TODO: all of this goes away when we
-      // can query our own books collection
-      exports.importBooks(r.items);
-      return Object.assign(r, {
-        items: r.items.map(exports.gapiBookToBook),
-      });
-    })
-    .then(({ totalItems, items }) => {
-      let next;
-
-      if (totalItems > page * limit) {
-        next =
-          `${process.env.API_ORIGIN}/api/books/search?` +
-          querystring.stringify({
-            page: page + 1,
-            query,
-            limit,
-          });
-      }
-
+exports.search = ({ limit, query }) => {
+  const projection = { score: { $meta: 'textScore' } };
+  const options = {
+    lean: true,
+    limit,
+  };
+  query = {
+    $text: { $search: query },
+  };
+  return Book.find(query, projection, options)
+    .sort({ score: { $meta: 'textScore' } })
+    .then(items => {
       return {
-        // Uri to next page of results
-        next,
-        // Total items available
-        totalItems,
         // Search result
         items,
       };

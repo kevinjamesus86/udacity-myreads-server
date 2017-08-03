@@ -5,10 +5,6 @@ const bookSchema = new Schema(
   {
     _id: {
       type: String,
-      required: true,
-      index: {
-        unique: true,
-      },
     },
 
     links: {
@@ -60,6 +56,20 @@ const bookSchema = new Schema(
   },
   {
     versionKey: false,
+  }
+);
+
+bookSchema.index(
+  {
+    title: 'text',
+    subtitle: 'text',
+    description: 'text',
+  },
+  {
+    weights: {
+      title: 10,
+      subtitle: 5,
+    },
   }
 );
 

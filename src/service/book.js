@@ -10,7 +10,7 @@ exports.search = ({ limit, query }) => {
     $text: { $search: query },
   };
   return Book.find(query, projection, options)
-    .sort({ score: { $meta: 'textScore' } })
+    .sort({ score: { $meta: 'textScore' }, publishedDate: -1 })
     .then(items => {
       return {
         // Search result

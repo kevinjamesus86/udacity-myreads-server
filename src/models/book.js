@@ -59,6 +59,8 @@ const bookSchema = new Schema(
   }
 );
 
+bookSchema.index({ publishedDate: -1 });
+
 bookSchema.index(
   {
     title: 'text',

@@ -16,6 +16,7 @@
     "compression": "^1.7.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
+    "escape-string-regexp": "^1.0.5",
     "express": "~4.15.3",
     "express-validator": "^3.2.1",
     "helmet": "^3.8.1",

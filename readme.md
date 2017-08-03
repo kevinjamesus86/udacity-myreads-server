@@ -41,7 +41,7 @@ For local development you'll need to create a `.env` config file in the root of 
 ```
 PORT=3000
 NODE_ENV=development
-API_BASE=http://localhost:3000/api
+API_ORIGIN=http://localhost:3000
 MONGODB_URI=mongodb://127.0.0.1:27017/udacity-myreads
 GAPI_BOOKS_API_KEY=<you'll need it for seeding with terms.json>
 ```

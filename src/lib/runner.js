@@ -87,7 +87,7 @@ const gapiBookToBook = ({ id, volumeInfo }) => {
   return new Book({
     _id: id,
     links: {
-      self: `${process.env.API_BASE}/books/${id}`,
+      self: `${process.env.API_ORIGIN}/api/books/${id}`,
     },
     title: volumeInfo.title,
     subtitle: volumeInfo.subtitle,

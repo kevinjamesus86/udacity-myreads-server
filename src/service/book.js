@@ -35,7 +35,7 @@ exports.search = ({ limit, page, query }) => {
 
       if (totalItems > page * limit) {
         next =
-          `${process.env.API_BASE}/books/search?` +
+          `${process.env.API_ORIGIN}/api/books/search?` +
           querystring.stringify({
             page: page + 1,
             query,
@@ -75,7 +75,7 @@ exports.gapiBookToBook = ({ id, volumeInfo }) => {
   return new Book({
     _id: id,
     links: {
-      self: `${process.env.API_BASE}/books/${id}`,
+      self: `${process.env.API_ORIGIN}/api/books/${id}`,
     },
     title: volumeInfo.title,
     subtitle: volumeInfo.subtitle,

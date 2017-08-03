@@ -7,7 +7,14 @@
     "postdeploy": "yarn run seed"
   },
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "API_ORIGIN": {
+      "description": "Origin of your heroku web service. Should be something like `https://<heroku-subdomain>.herokuapp.com` (no trailing slash plz)",
+      "required": true
+    },
+    "GAPI_BOOKS_API_KEY": {
+      "required": true
+    },
   },
   "buildpacks": [{
     "url": "heroku/nodejs"

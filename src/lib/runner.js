@@ -1,7 +1,7 @@
 const request = require('./util/request');
 const { Book } = require('../../src/models');
 
-exports.fetchBooks = ({ term, page = 0, limit = 40 }) => {
+exports.fetchBooks = ({ term, pages = 2, page = 0, limit = 40 }) => {
   console.log(`Fetching `, { term, page, limit });
   return request
     .get({
@@ -31,12 +31,13 @@ exports.fetchBooks = ({ term, page = 0, limit = 40 }) => {
       };
     })
     .then(async ({ totalItems, upsertedCount }) => {
-      return page < 1 && totalItems > page * limit
-        ? // Recurse ! Bring in 2 pages of results if possible
+      return page + 1 < pages && totalItems > page * limit
+        ? // Recurse !
           upsertedCount +
           (await exports.fetchBooks({
-            page: page + 1,
             term,
+            pages,
+            page: page + 1,
             limit,
           }))
         : upsertedCount;

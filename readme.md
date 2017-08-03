@@ -14,19 +14,25 @@ You'll need [Node.js](https://nodejs.org/en/) `v8.2` [or higher] installed to ru
 
 ### Linting
 
+Get yelled at
+
 `yarn lint`
+
+Don't get yelled at, have prettier fix everything
+
+`yarn lint:fix`
 
 ## Seeding
 
-To import ~6000 books for the terms in  [`terms.json`](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/lib/terms.json) run
+Need ~6000 books? Import books for the terms found in  [`terms.json`](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/lib/terms.json) by running
 
 `yarn run seed`
 
-To import fewer books for terms of your own run
+To import fewer books, import books for terms of your own by running
 
-`yarn run seed -- 'React JS' Science BBQ`
+`yarn run seed -- 'React JS' Science BBQ Whatever`
 
-The default seeding via. `terms.json` is a pretty intense operation and requires that you have a Google Books API key, as you'll be downloading around 6000 books. If you don't have an API key you'll max out the quota and the seeding will fail part way through. Head over to https://support.google.com/cloud/answer/6158862 and follow the instructions to grab a key. See the `## ENV` section below for exposing they key to the app
+**Note**: The default seeding via. `terms.json` is a pretty intense operation and requires that you have a Google Books API key, as you'll be downloading around 6000 books. If you don't have an API key you'll max out the quota and the seeding will fail part way through. Head over to https://support.google.com/cloud/answer/6158862 and follow the instructions to grab a key. See the `## ENV` section below for exposing they key to the app
 
 ## ENV
 

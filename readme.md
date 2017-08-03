@@ -24,7 +24,7 @@ Don't get yelled at, have prettier fix everything
 
 ## Seeding
 
-Need ~6000 books? Import books for the terms found in  [`terms.json`](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/lib/terms.json) by running
+Need ~1200 books? Import books for the terms found in  [`terms.json`](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/lib/terms.json) by running
 
 `yarn run seed`
 
@@ -32,7 +32,7 @@ To import fewer books, import books for terms of your own by running
 
 `yarn run seed -- 'React JS' Science BBQ Whatever`
 
-**Note**: The default seeding via. `terms.json` is a pretty intense operation and requires that you have a Google Books API key, as you'll be downloading around 6000 books. If you don't have an API key you'll max out the quota and the seeding will fail part way through. Head over to https://support.google.com/cloud/answer/6158862 and follow the instructions to grab a key. See the `## ENV` section below for exposing they key to the app
+**Note**: The default seeding via. `terms.json` is a pretty intense operation and requires that you have a Google Books API key, as you'll be downloading around 1200 books. We're not using a Google API key here so it may fail part way through to do quotas and whatnot. No worries though, you'll still end up with a bunch of books
 
 ## ENV
 
@@ -41,7 +41,5 @@ For local development you'll need to create a `.env` config file in the root of 
 ```
 PORT=3000
 NODE_ENV=development
-API_ORIGIN=http://localhost:3000
 MONGODB_URI=mongodb://127.0.0.1:27017/udacity-myreads
-GAPI_BOOKS_API_KEY=<you'll need it for seeding with terms.json>
 ```

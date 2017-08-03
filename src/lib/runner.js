@@ -14,7 +14,6 @@ exports.fetchBooks = ({ term }) => {
         maxResults: 30,
         printType: 'books',
         langRestrict: 'en',
-        key: process.env.GAPI_BOOKS_API_KEY,
       },
     })
     .then(r => JSON.parse(r))
@@ -45,9 +44,6 @@ const mapGapiBooksToBooks = books => {
   return books.map(({ id, term, volumeInfo }) =>
     new Book({
       _id: id,
-      links: {
-        self: `${process.env.API_ORIGIN}/api/books/${id}`,
-      },
       term: term,
       title: volumeInfo.title.trim(),
       subtitle: volumeInfo.subtitle,

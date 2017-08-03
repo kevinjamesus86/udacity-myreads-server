@@ -12,8 +12,10 @@ if (process.env.NODE_ENV === 'production') {
 (async () => {
   const { connect } = require('../../src/db');
 
+  // If we can't connect to the database then
+  // we don't need to do any of the work that follows
   try {
-    connect(process.env.MONGODB_URI);
+    await connect(process.env.MONGODB_URI);
   } catch (e) {
     return console.error('Could not connect to mongo', e);
   }

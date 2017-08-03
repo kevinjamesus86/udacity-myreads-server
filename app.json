@@ -14,7 +14,7 @@
     },
     "GAPI_BOOKS_API_KEY": {
       "required": true
-    },
+    }
   },
   "buildpacks": [{
     "url": "heroku/nodejs"

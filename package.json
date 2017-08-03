@@ -6,8 +6,9 @@
   "repository": "kevinjamesus86/udacity-myreads-server",
   "scripts": {
     "start": "node src/server.js",
-    "start:dev": "nodemon src/server.js",
-    "lint": "node_modules/.bin/eslint 'src/**' 'test/**'",
+    "start:dev": "node_modules/.bin/nodemon src/server.js",
+    "lint": "node_modules/.bin/eslint 'src/**/*.js'",
+    "lint:fix": "npm run lint -- --fix",
     "seed": "node src/lib/seed.js"
   },
   "dependencies": {
@@ -23,7 +24,10 @@
   },
   "devDependencies": {
     "eslint": "^4.3.0",
-    "nodemon": "^1.11.0"
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "nodemon": "^1.11.0",
+    "prettier": "^1.5.3"
   },
   "engines": {
     "node": "8.x"

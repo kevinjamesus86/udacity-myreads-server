@@ -29,7 +29,7 @@ router.get('/shelved-books', (req, res, next) => {
     .find({
       query: {
         authorization,
-      }
+      },
     })
     .then(r => res.json(r))
     .catch(next);

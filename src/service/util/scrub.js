@@ -36,27 +36,31 @@ exports.options = function scrubOptions(options = {}) {
     }
   }
 
-  if (unknownProps.length) console.warn(`Check yo'self: scrub.options ` +
-    `removed unknown properties ${unknownProps}`);
+  if (unknownProps.length)
+    console.warn(
+      `Check yo'self: scrub.options ` +
+        `removed unknown properties ${unknownProps}`
+    );
 
   return options;
 };
 
 exports.query = function scrubQuery(query = {}) {
-  if (query) for (const prop in query) {
-    if (owns.call(query, prop)) {
-      const value = query[prop];
-      if (value == null) {
-        // Bunk value
-        delete query[prop];
-      } else if (typeof value === 'object') {
-        scrubQuery(value);
-        // Bunk members -> bunk value
-        if (Object.keys(value).length === 0) {
+  if (query)
+    for (const prop in query) {
+      if (owns.call(query, prop)) {
+        const value = query[prop];
+        if (value == null) {
+          // Bunk value
           delete query[prop];
+        } else if (typeof value === 'object') {
+          scrubQuery(value);
+          // Bunk members -> bunk value
+          if (Object.keys(value).length === 0) {
+            delete query[prop];
+          }
         }
       }
     }
-  }
   return query;
 };

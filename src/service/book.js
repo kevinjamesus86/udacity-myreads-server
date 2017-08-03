@@ -27,7 +27,7 @@ exports.search = ({ limit, page, query }) => {
       // can query our own books collection
       exports.importBooks(r.items);
       return Object.assign(r, {
-        items: r.items.map(exports.gapiBookToBook)
+        items: r.items.map(exports.gapiBookToBook),
       });
     })
     .then(({ totalItems, items }) => {
@@ -85,7 +85,8 @@ exports.gapiBookToBook = ({ id, volumeInfo }) => {
     publisher: volumeInfo.publisher,
     publishedDate: volumeInfo.publishedDate,
     description: volumeInfo.description,
-    thumbnailHref: volumeInfo.imageLinks &&
+    thumbnailHref:
+      volumeInfo.imageLinks &&
       (volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail),
   }).toJSON();
 };

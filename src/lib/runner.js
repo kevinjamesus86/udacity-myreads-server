@@ -34,11 +34,11 @@ exports.fetchBooks = ({ term, page = 0, limit = 40 }) => {
       return page < 1 && totalItems > page * limit
         ? // Recurse ! Bring in 2 pages of results if possible
           upsertedCount +
-            (await exports.fetchBooks({
-              page: page + 1,
-              term,
-              limit,
-            }))
+          (await exports.fetchBooks({
+            page: page + 1,
+            term,
+            limit,
+          }))
         : upsertedCount;
     });
 };
@@ -96,7 +96,8 @@ const gapiBookToBook = ({ id, volumeInfo }) => {
     publisher: volumeInfo.publisher,
     publishedDate: volumeInfo.publishedDate,
     description: volumeInfo.description,
-    thumbnailHref: volumeInfo.imageLinks &&
+    thumbnailHref:
+      volumeInfo.imageLinks &&
       (volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail),
   }).toJSON();
 };

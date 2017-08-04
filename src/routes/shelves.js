@@ -29,6 +29,9 @@ router.get('/shelved-books', (req, res, next) => {
     .find({
       query: {
         authorization,
+        shelf: {
+          $ne: 'none',
+        },
       },
     })
     .then(r => res.json(r))

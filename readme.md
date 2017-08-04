@@ -32,7 +32,7 @@ To import fewer books, import books for terms of your own by running
 
 `yarn run seed -- 'React JS' Science BBQ Whatever`
 
-**Note**: The default seeding via. `terms.json` is a pretty intense operation and requires that you have a Google Books API key, as you'll be downloading around 1200 books. We're not using a Google API key here so it may fail part way through to do quotas and whatnot. No worries though, you'll still end up with a bunch of books
+**Note**: The default seeding via. `terms.json` is a pretty intense operation.. We're not using a Google Books API Key here so it may fail part way through to do quotas and whatnot. No worries though, you'll still end up with a bunch of books
 
 ## ENV
 

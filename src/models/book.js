@@ -5,16 +5,11 @@ const bookSchema = new Schema(
   {
     _id: {
       type: String,
+      alias: 'id',
     },
 
     term: {
       type: String,
-    },
-
-    links: {
-      self: {
-        type: String,
-      },
     },
 
     title: {
@@ -59,6 +54,12 @@ const bookSchema = new Schema(
   },
   {
     versionKey: false,
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
   }
 );
 

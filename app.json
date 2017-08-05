@@ -4,7 +4,7 @@
   "repository": "https://github.com/kevinjamesus86/udacity-myreads-server",
   "stack": "heroku-16",
   "scripts": {
-    "postdeploy": "yarn run seed"
+    "postdeploy": "yarn run seed:myreads"
   },
   "env": {
     "NODE_ENV": "production",

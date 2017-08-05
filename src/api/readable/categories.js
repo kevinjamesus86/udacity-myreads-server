@@ -26,24 +26,24 @@ router.get('/categories', (req, res, next) => {
     .catch(next);
 });
 
-// GET /categories/:category/posts
+// GET /categories/:_id/posts
 // USAGE:
-// Get all of the posts for a particular category
+// Get all of the posts for a particular _id
 router.get(
-  '/categories/:category/posts',
+  '/categories/:_id/posts',
   validate({
-    category: {
+    _id: {
       in: 'params',
-      notEmpty: true,
+      isMongoId: true,
     },
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { category } = req.params;
+    const { _id } = req.params;
 
     Post.find(
       {
-        category,
+        _id,
         auth: auth || {
           $exists: false,
         },

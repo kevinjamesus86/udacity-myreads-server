@@ -16,10 +16,10 @@ Category {
 ```
 Post {
   _id: String<MongoId>
+  categoryId: String<MongoId> # Category._id
   title: String
   body: String
   author: String
-  category: String
   voteScore: Number
   timestamp: Date
 }
@@ -28,13 +28,12 @@ Post {
 **Comment**
 
 ```
-Post {
+Comment {
   _id: String<MongoId>
-  parentId: String<MongoId>
+  parentId: String<MongoId> # Post._id
   title: String
   body: String
   author: String
-  category: String
   voteScore: Number
   timestamp: Date
 }
@@ -74,9 +73,9 @@ Get all of the categories available for the app.
 
 Create a new category
 
-#### `GET /categories/:category/posts`
+#### `GET /categories/:_id/posts`
 
-Get all of the posts for a particular category
+Get all of the posts for a particular category by \_id
 
 #### `GET /posts`
 
@@ -91,7 +90,7 @@ Param | Type | Notes
 title | String |
 body | String |
 owner | String |
-category | String | must exist in categories
+categoryId | String<MongoId> | must exist in categories
 
 #### `GET /posts/:_id`
 

@@ -36,7 +36,6 @@ const initPosts = [
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
     author: 'thingtwo',
-    category: 'react',
     voteScore: 6,
   },
   {
@@ -44,7 +43,6 @@ const initPosts = [
     title: 'Learn Redux in 10 minutes!',
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
     author: 'thingone',
-    category: 'redux',
     voteScore: -5,
   },
 ];
@@ -99,7 +97,7 @@ const dropItLikeItsHot = async auth => {
     new Category(maybeAddAuth(cat)).toJSON()
   );
 
-  await Category.bulkWrite(
+  const categories = await Category.bulkWrite(
     categoriesToWrite.map(cat => ({
       updateOne: {
         filter: maybeAddAuth({ _id: cat._id }),
@@ -107,14 +105,18 @@ const dropItLikeItsHot = async auth => {
         upsert: true,
       },
     }))
-  );
+  ).then(() => categoriesToWrite.map(unsetAuth));
 
   /////////////////
   // Posts
   /////////////////
 
-  const postsToWrite = initPosts.map(post =>
-    new Post(maybeAddAuth(post)).toJSON()
+  const postsToWrite = initPosts.map((post, index) =>
+    new Post(
+      assign({}, maybeAddAuth(post), {
+        categoryId: categories[index]._id,
+      })
+    ).toJSON()
   );
 
   const posts = await Post.bulkWrite(

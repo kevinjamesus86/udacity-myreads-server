@@ -27,9 +27,9 @@ const postSchema = new Schema({
     required: true,
   },
 
-  category: {
-    type: String,
-    required: true,
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
   },
 
   voteScore: {

@@ -101,7 +101,7 @@ router.get(
 // title - String
 // body - String
 // owner - String
-// category - String # Must exist in the categories collection
+// categoryId - String<MongoId> # Must exist in the categories collection
 router.post(
   '/posts',
   bodyParser.json(),
@@ -118,20 +118,20 @@ router.post(
       in: 'body',
       notEmpty: true,
     },
-    category: {
+    categoryId: {
       in: 'body',
-      notEmpty: true,
+      isMongoId: true,
     },
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { title, body, owner, category } = req.body;
+    const { title, body, owner, categoryId } = req.body;
 
     // Assert that the category exists
     // FKs would be nice here..
     Category.findOne(
       {
-        path: category,
+        _id: categoryId,
         auth: auth || {
           $exists: false,
         },
@@ -148,29 +148,24 @@ router.post(
           // https://httpstatuses.com/422
           Promise.reject({
             status: 422,
-            message: `Unable to create Post, Category<${category}> does not exist.`,
+            message: `Unable to create Post, Category<${categoryId}> does not exist.`,
           })
       )
-      .then(category =>
-        Promise.all([
-          // Pass the category through
-          category,
-          // Create the post
-          Post.create({
-            auth,
-            title,
-            body,
-            owner,
-            category,
-          }),
-        ])
+      .then(() =>
+        Post.create({
+          auth,
+          title,
+          body,
+          owner,
+          categoryId,
+        })
       )
-      .then(([{ _id }, post]) =>
+      .then(post =>
         // Update the post count for this category
         Category.findOneAndUpdate(
           // Doc to update
           {
-            _id,
+            _id: categoryId,
             auth: auth || {
               $exists: false,
             },

@@ -78,6 +78,10 @@ Get all of the categories available for the app.
 
 Create a new category
 
+Param | Type | Notes
+----- | ---- | -----
+Name | String |
+
 #### `GET /categories/:_id/posts`
 
 Get all of the posts for a particular category by \_id

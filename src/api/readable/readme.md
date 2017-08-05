@@ -1,6 +1,6 @@
 ## Schemas
 
-**Category result schema**
+**Category**
 
 ```
 Category {
@@ -11,7 +11,7 @@ Category {
 }
 ```
 
-**Post result schema**
+**Post**
 
 ```
 Post {
@@ -25,7 +25,7 @@ Post {
 }
 ```
 
-**Comment result schema**
+**Comment**
 
 ```
 Post {

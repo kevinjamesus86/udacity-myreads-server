@@ -28,7 +28,7 @@ router.get('/categories', (req, res, next) => {
 
 // GET /categories/:_id/posts
 // USAGE:
-// Get all of the posts for a particular _id
+// Get all of the posts for a particular category _id
 router.get(
   '/categories/:_id/posts',
   validate({
@@ -39,11 +39,12 @@ router.get(
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { _id } = req.params;
+    const { _id: categoryId } = req.params;
 
     Post.find(
       {
-        categoryId: _id,
+        categoryId,
+        deleted: false,
         auth: auth || {
           $exists: false,
         },

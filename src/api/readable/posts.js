@@ -16,6 +16,7 @@ router.get('/posts', (req, res, next) => {
 
   Post.find(
     {
+      deleted: false,
       auth: auth || {
         $exists: false,
       },
@@ -47,6 +48,7 @@ router.get(
     Post.findOne(
       {
         _id,
+        deleted: false,
         auth: auth || {
           $exists: false,
         },
@@ -74,11 +76,12 @@ router.get(
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { _id } = req.params;
+    const { _id: parentId } = req.params;
 
     Comment.find(
       {
-        parentId: _id,
+        parentId,
+        deleted: false,
         auth: auth || {
           $exists: false,
         },

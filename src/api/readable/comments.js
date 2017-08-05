@@ -92,6 +92,7 @@ router.get(
     Comment.findOne(
       {
         _id,
+        deleted: false,
         auth: auth || {
           $exists: false,
         },

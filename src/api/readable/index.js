@@ -3,6 +3,8 @@ const router = (module.exports = new Router());
 const validate = require('../middleware/validate');
 
 router.use(
+  // Root route
+  '/readable',
   // Wire up request validator
   validate.middleware(),
   // Stuff the authorization token into the response's
@@ -14,11 +16,8 @@ router.use(
   },
   // For first time visits, this will seed the DB for the
   // [authed] user with some categories, posts, and comments
-  require('./_init/seed')
-);
-
-router.use(
-  '/readable',
+  require('./_init/seed'),
+  // Routes
   require('./categories'),
   require('./posts'),
   require('./comments')

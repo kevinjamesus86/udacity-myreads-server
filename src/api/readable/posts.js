@@ -4,10 +4,6 @@ const bodyParser = require('body-parser');
 const validate = require('../middleware/validate');
 const { Category, Post, Comment } = require('./models');
 
-// const { assign } = Object;
-
-// const authAdder = auth => to => (auth ? assign({ auth }, to) : to);
-
 // GET /posts
 // USAGE:
 // Get all of the posts. Useful for the main page when no category is selected.

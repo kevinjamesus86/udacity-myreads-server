@@ -23,7 +23,7 @@ const categorySchema = new Schema({
   },
 });
 
-categorySchema.createIndex(
+categorySchema.index(
   {
     auth: 1,
     name: 1,

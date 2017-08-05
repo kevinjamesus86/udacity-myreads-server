@@ -7,12 +7,6 @@ const sampleOne = arr => arr[Math.floor(Math.random() * arr.length)];
 
 const authAdder = auth => to => (auth ? assign({ auth }, to) : assign({}, to));
 
-const unsetAuth = item => {
-  item = assign({}, item);
-  delete item.auth;
-  return item;
-};
-
 const initCategories = [
   {
     name: 'react',
@@ -93,25 +87,25 @@ const dropItLikeItsHot = async auth => {
   // Categories
   /////////////////
 
-  const categoriesToWrite = initCategories.map(cat =>
+  const categories = initCategories.map(cat =>
     new Category(maybeAddAuth(cat)).toJSON()
   );
 
-  const categories = await Category.bulkWrite(
-    categoriesToWrite.map(cat => ({
+  await Category.bulkWrite(
+    categories.map(cat => ({
       updateOne: {
         filter: maybeAddAuth({ _id: cat._id }),
         update: cat,
         upsert: true,
       },
     }))
-  ).then(() => categoriesToWrite.map(unsetAuth));
+  );
 
   /////////////////
   // Posts
   /////////////////
 
-  const postsToWrite = initPosts.map((post, index) =>
+  const posts = initPosts.map((post, index) =>
     new Post(
       assign({}, maybeAddAuth(post), {
         categoryId: categories[index]._id,
@@ -119,21 +113,21 @@ const dropItLikeItsHot = async auth => {
     ).toJSON()
   );
 
-  const posts = await Post.bulkWrite(
-    postsToWrite.map(post => ({
+  await Post.bulkWrite(
+    posts.map(post => ({
       updateOne: {
         filter: maybeAddAuth({ _id: post._id }),
         update: post,
         upsert: true,
       },
     }))
-  ).then(() => postsToWrite.map(unsetAuth));
+  );
 
   /////////////////
   // Comments
   /////////////////
 
-  const commentsToWrite = initComments.map(comment =>
+  const comments = initComments.map(comment =>
     new Comment(
       assign({}, maybeAddAuth(comment), {
         parentId: sampleOne(posts)._id,
@@ -142,12 +136,12 @@ const dropItLikeItsHot = async auth => {
   );
 
   await Comment.bulkWrite(
-    commentsToWrite.map(comment => ({
+    comments.map(comment => ({
       updateOne: {
         filter: maybeAddAuth({ _id: comment._id }),
         update: comment,
         upsert: true,
       },
     }))
-  ).then(() => commentsToWrite.map(unsetAuth));
+  );
 };

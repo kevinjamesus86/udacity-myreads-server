@@ -111,7 +111,7 @@ body | String |
 Used for voting on a post
 
 Param | Type | Notes
------ | ---- |
+----- | ---- | -----
 option | String | Either "upVote" or "downVote"
 
 #### `DELETE /posts/:_id`

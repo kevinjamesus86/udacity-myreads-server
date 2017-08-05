@@ -1,5 +1,7 @@
 ## Schemas
 
+`*` denotes props that can not be mutated directly, nor will they be part of the response objects.
+
 **Category**
 
 ```
@@ -22,6 +24,7 @@ Post {
   author: String
   voteScore: Number
   timestamp: Date
+  *deleted: Boolean
 }
 ```
 
@@ -36,6 +39,8 @@ Comment {
   author: String
   voteScore: Number
   timestamp: Date
+  *deleted: Boolean
+  *parentDeleted: Boolean
 }
 ```
 

@@ -1,4 +1,3 @@
-const escapeRegExp = require('escape-string-regexp');
 const { Book } = require('../models');
 
 exports.search = ({ limit, query }) => {

@@ -1,19 +1,26 @@
 const request = require('./util/request');
-const { Book } = require('../../src/models');
+const { Book } = require('../models');
 
 exports.fetchBooks = ({ term }) => {
   console.log(`Fetching:`, { term });
+
+  const params = {
+    q: term,
+    maxResults: 30,
+    printType: 'books',
+    langRestrict: 'en',
+  };
+
+  if (process.env.GOOGLE_BOOKS_API_KEY) {
+    params.key = process.env.GOOGLE_BOOKS_API_KEY;
+  }
+
   return request
     .get({
       url: 'https://www.googleapis.com/books/v1/volumes',
+      params,
       headers: {
         Accept: 'application/json',
-      },
-      params: {
-        q: term,
-        maxResults: 30,
-        printType: 'books',
-        langRestrict: 'en',
       },
     })
     .then(r => JSON.parse(r))

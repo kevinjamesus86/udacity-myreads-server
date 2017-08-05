@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = (module.exports = new Router());
 const bodyParser = require('body-parser');
-const validate = require('./middleware/validate');
-const shelvedBook = require('../service/shelvedBook');
+const validate = require('../middleware/validate');
+const shelvedBook = require('./service/shelvedBook');
 
 router.use(
   validate.middleware(),

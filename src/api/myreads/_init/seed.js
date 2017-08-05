@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 (async () => {
-  const { connect } = require('../../src/db');
+  const { connect } = require('../../../db');
 
   // If we can't connect to the database then
   // we don't need to do any of the work that follows

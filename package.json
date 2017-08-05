@@ -9,14 +9,13 @@
     "start:dev": "node_modules/.bin/nodemon src/server.js",
     "lint": "node_modules/.bin/eslint 'src/**/*.js'",
     "lint:fix": "npm run lint -- --fix",
-    "seed": "node src/lib/seed.js"
+    "seed:myreads": "node src/api/myreads/_init/seed.js"
   },
   "dependencies": {
     "body-parser": "~1.17.2",
     "compression": "^1.7.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "escape-string-regexp": "^1.0.5",
     "express": "~4.15.3",
     "express-validator": "^3.2.1",
     "helmet": "^3.8.1",

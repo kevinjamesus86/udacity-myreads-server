@@ -65,8 +65,8 @@ module.exports = (async () => {
   // Compression ftw
   app.use(compression());
 
-  // Actual routes
-  app.use('/api', require('./routes'));
+  // Routes
+  app.use('/api', require('./api'));
 
   // 404
   app.use(function(req, res) {

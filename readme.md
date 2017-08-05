@@ -1,5 +1,9 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kevinjamesus86/udacity-myreads-server)
 
+# API README(s)
+
+[**MyReads**](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/api/myreads/readme.md)
+
 ## Requirements
 
 You'll need [Node.js](https://nodejs.org/en/) `v8.2` [or higher] installed to run this shiz
@@ -21,18 +25,6 @@ Get yelled at
 Don't get yelled at, have prettier fix everything
 
 `yarn lint:fix`
-
-## Seeding
-
-Need ~1200 books? Import books for the terms found in  [`terms.json`](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/lib/terms.json) by running
-
-`yarn run seed`
-
-To import fewer books, import books for terms of your own by running
-
-`yarn run seed -- 'React JS' Science BBQ Whatever`
-
-**Note**: The default seeding via. `terms.json` is a pretty intense operation.. We're not using a Google Books API Key here so it may fail part way through to do quotas and whatnot. No worries though, you'll still end up with a bunch of books
 
 ## ENV
 

@@ -199,60 +199,6 @@ router.post(
 
 // PATCH /posts/:_id
 // USAGE:
-// Used for voting on a post
-//
-// PARAMS:
-// option - String: Either "upVote" or "downVote"
-router.patch(
-  '/posts/:_id',
-  bodyParser.json(),
-  validate({
-    _id: {
-      in: 'params',
-      isMongoId: true,
-    },
-    option: {
-      in: 'body',
-      matches: {
-        options: /^(upVote|downVote)$/,
-      },
-    },
-  }),
-  (req, res, next) => {
-    const { auth } = res.locals;
-    const { _id } = req.params;
-    const { option } = req.body;
-
-    const q = Post.findOneAndUpdate(
-      // Doc to update
-      {
-        _id,
-        auth: auth || {
-          $exists: false,
-        },
-      },
-      // Changes to apply
-      {
-        $inc: {
-          voteScore: option === 'upVote' ? 1 : -1,
-        },
-      },
-      {
-        // Return modified doc
-        new: true,
-        // Projection
-        select: '_id voteScore',
-      }
-    );
-
-    q.setOptions({ lean: true });
-
-    q.then(post => res.json(post)).catch(next);
-  }
-);
-
-// PATCH /posts/:_id
-// USAGE:
 // Edit the details of an existing post
 //
 // PARAMS:
@@ -298,6 +244,60 @@ router.patch(
         new: true,
         // Projection
         fields: `_id title body`,
+      }
+    );
+
+    q.setOptions({ lean: true });
+
+    q.then(post => res.json(post)).catch(next);
+  }
+);
+
+// PATCH /posts/:_id/vote
+// USAGE:
+// Used for voting on a post
+//
+// PARAMS:
+// option - String: Either "upVote" or "downVote"
+router.patch(
+  '/posts/:_id/vote',
+  bodyParser.json(),
+  validate({
+    _id: {
+      in: 'params',
+      isMongoId: true,
+    },
+    option: {
+      in: 'body',
+      matches: {
+        options: /^(upVote|downVote)$/,
+      },
+    },
+  }),
+  (req, res, next) => {
+    const { auth } = res.locals;
+    const { _id } = req.params;
+    const { option } = req.body;
+
+    const q = Post.findOneAndUpdate(
+      // Doc to update
+      {
+        _id,
+        auth: auth || {
+          $exists: false,
+        },
+      },
+      // Changes to apply
+      {
+        $inc: {
+          voteScore: option === 'upVote' ? 1 : -1,
+        },
+      },
+      {
+        // Return modified doc
+        new: true,
+        // Projection
+        select: '_id voteScore',
       }
     );
 

@@ -108,57 +108,6 @@ router.get(
 
 // PATCH /comments/:_id
 // USAGE:
-// Used for voting on a comment.
-router.patch(
-  '/comments/:_id',
-  bodyParser.json(),
-  validate({
-    _id: {
-      in: 'params',
-      isMongoId: true,
-    },
-    option: {
-      in: 'body',
-      matches: {
-        options: /^(upVote|downVote)$/,
-      },
-    },
-  }),
-  (req, res, next) => {
-    const { auth } = res.locals;
-    const { _id } = req.params;
-    const { option } = req.body;
-
-    const q = Comment.findOneAndUpdate(
-      // Doc to update
-      {
-        _id,
-        auth: auth || {
-          $exists: false,
-        },
-      },
-      // Changes to apply
-      {
-        $inc: {
-          voteScore: option === 'upVote' ? 1 : -1,
-        },
-      },
-      {
-        // Return modified doc
-        new: true,
-        // Projection
-        select: '_id voteScore',
-      }
-    );
-
-    q.setOptions({ lean: true });
-
-    q.then(comment => res.json(comment)).catch(next);
-  }
-);
-
-// PATCH /comments/:_id
-// USAGE:
 // Edit the details of an existing comment
 //
 // PARAMS:
@@ -205,6 +154,57 @@ router.patch(
     q.setOptions({ lean: true });
 
     q.then(post => res.json(post)).catch(next);
+  }
+);
+
+// PATCH /comments/:_id/vote
+// USAGE:
+// Used for voting on a comment.
+router.patch(
+  '/comments/:_id/vote',
+  bodyParser.json(),
+  validate({
+    _id: {
+      in: 'params',
+      isMongoId: true,
+    },
+    option: {
+      in: 'body',
+      matches: {
+        options: /^(upVote|downVote)$/,
+      },
+    },
+  }),
+  (req, res, next) => {
+    const { auth } = res.locals;
+    const { _id } = req.params;
+    const { option } = req.body;
+
+    const q = Comment.findOneAndUpdate(
+      // Doc to update
+      {
+        _id,
+        auth: auth || {
+          $exists: false,
+        },
+      },
+      // Changes to apply
+      {
+        $inc: {
+          voteScore: option === 'upVote' ? 1 : -1,
+        },
+      },
+      {
+        // Return modified doc
+        new: true,
+        // Projection
+        select: '_id voteScore',
+      }
+    );
+
+    q.setOptions({ lean: true });
+
+    q.then(comment => res.json(comment)).catch(next);
   }
 );
 

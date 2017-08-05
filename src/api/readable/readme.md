@@ -86,8 +86,8 @@ Get all of the posts. Useful for the main page when no category is selected.
 
 Add a new post
 
-Param | Type |
------ | ---- | -----------
+Param | Type | Notes
+----- | ---- | -----
 title | String |
 body | String |
 owner | String |
@@ -99,20 +99,20 @@ Get the details of a single post
 
 #### `PATCH /posts/:_id`
 
-Used for voting on a post
-
-Param | Type |
------ | ---- | -----------
-option | String | Either "upVote" or "downVote"
-
-#### `PATCH /posts/:_id`
-
 Edit the details of an existing post
 
-Param | Type |
------ | ---- | -----------
+Param | Type | Notes
+----- | ---- | -----
 title | String |
 body | String |
+
+#### `PATCH /posts/:_id/vote`
+
+Used for voting on a post
+
+Param | Type | Notes
+----- | ---- |
+option | String | Either "upVote" or "downVote"
 
 #### `DELETE /posts/:_id`
 
@@ -126,8 +126,8 @@ Get all the comments for a single post
 
 Add a comment to a post
 
-Param | Type |
------ | ---- | -----------
+Param | Type | Notes
+----- | ---- | -----
 body | String |
 owner | String |
 parentId | String<MongoId> | Should match a post id in the database
@@ -138,19 +138,19 @@ Get the details for a single comment
 
 #### `PATCH /comments/:_id`
 
-Used for voting on a comment.
-
-Param | Type |
------ | ---- | -----------
-option | String | Either "upVote" or "downVote"
-
-#### `PATCH /comments/:_id`
-
 Edit the details of an existing comment
 
-Param | Type |
------ | ---- | -----------
+Param | Type | Notes
+----- | ---- | -----
 body | String |
+
+#### `PATCH /comments/:_id/vote`
+
+Used for voting on a comment.
+
+Param | Type | Notes
+----- | ---- | -----
+option | String | Either "upVote" or "downVote"
 
 #### `DELETE /comments/:_id`
 

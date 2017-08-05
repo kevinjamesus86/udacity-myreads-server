@@ -68,6 +68,14 @@ module.exports = (async () => {
   // Routes
   app.use('/api', require('./api'));
 
+  // Root
+  app.get('/', (req, res) => {
+    res.json({
+      ohai: `🎉 You've made it to udacity-reactnd-server 🎉`,
+      goto: `https://github.com/kevinjamesus86/udacity-reactnd-server`,
+    });
+  });
+
   // 404
   app.use(function(req, res) {
     res.status(404);

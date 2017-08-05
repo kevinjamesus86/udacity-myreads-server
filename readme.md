@@ -4,6 +4,8 @@
 
 [**MyReads**](https://github.com/kevinjamesus86/udacity-reactnd-server/blob/master/src/api/myreads/readme.md)
 
+[**Readable**](https://github.com/kevinjamesus86/udacity-reactnd-server/blob/master/src/api/readable/readme.md)
+
 ## Requirements
 
 You'll need [Node.js](https://nodejs.org/en/) `v8.2` [or higher] installed to run this shiz

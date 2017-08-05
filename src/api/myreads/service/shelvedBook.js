@@ -30,7 +30,7 @@ exports.update = ({
     {
       // Return modified doc
       new: true,
-      // DO NOT create if it doesn't exist
+      // Create if it doesn't exist
       upsert: true,
       // Fields to select
       fields: project,

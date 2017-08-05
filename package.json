@@ -20,7 +20,8 @@
     "express-validator": "^3.2.1",
     "helmet": "^3.8.1",
     "mongoose": "^4.11.5",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "slugify": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "^4.3.0",

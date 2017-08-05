@@ -43,7 +43,7 @@ router.get(
 
     Post.find(
       {
-        _id,
+        categoryId: _id,
         auth: auth || {
           $exists: false,
         },

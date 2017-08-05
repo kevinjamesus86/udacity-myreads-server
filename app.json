@@ -1,13 +1,13 @@
 {
-  "name": "udacity-myreads-server",
-  "description": "Book search stuff, bruv",
-  "repository": "https://github.com/kevinjamesus86/udacity-myreads-server",
+  "name": "udacity-reactnd-server",
+  "description": "Udacity reactnd server stuff, bruv",
+  "repository": "https://github.com/kevinjamesus86/udacity-reactnd-server",
   "stack": "heroku-16",
   "scripts": {
     "postdeploy": "yarn run seed:myreads"
   },
   "env": {
-    "NODE_ENV": "production",
+    "NODE_ENV": "production"
   },
   "buildpacks": [{
     "url": "heroku/nodejs"

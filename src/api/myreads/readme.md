@@ -106,7 +106,7 @@ There's a text index on `Book{term, title, authors}`, so those are the things yo
 
 ## Seeding
 
-Need ~1200 books? Import books for the terms found in  [`terms.json`](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/lib/terms.json) by running
+Need ~1200 books? Import books for the terms found in  [`terms.json`](https://github.com/kevinjamesus86/udacity-reactnd-server/blob/master/src/lib/terms.json) by running
 
 `yarn run seed:myreads`
 

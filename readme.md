@@ -1,8 +1,8 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kevinjamesus86/udacity-myreads-server)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kevinjamesus86/udacity-reactnd-server)
 
 # API README(s)
 
-[**MyReads**](https://github.com/kevinjamesus86/udacity-myreads-server/blob/master/src/api/myreads/readme.md)
+[**MyReads**](https://github.com/kevinjamesus86/udacity-reactnd-server/blob/master/src/api/myreads/readme.md)
 
 ## Requirements
 
@@ -33,5 +33,5 @@ For local development you'll need to create a `.env` config file in the root of 
 ```
 PORT=3000
 NODE_ENV=development
-MONGODB_URI=mongodb://127.0.0.1:27017/udacity-myreads
+MONGODB_URI=mongodb://127.0.0.1:27017/udacity-reactnd
 ```

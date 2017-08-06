@@ -131,7 +131,7 @@ const dropItLikeItsHot = async auth => {
   const comments = initComments.map(comment =>
     new Comment(
       assign({}, maybeAddAuth(comment), {
-        parentId: sampleOne(posts)._id,
+        postId: sampleOne(posts)._id,
       })
     ).toJSON()
   );

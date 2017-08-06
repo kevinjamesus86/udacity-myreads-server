@@ -13,7 +13,7 @@ const commentSchema = new Schema({
     default: Date.now(),
   },
 
-  parentId: {
+  postId: {
     type: Schema.Types.ObjectId,
     ref: 'Post',
   },

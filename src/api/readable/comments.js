@@ -153,7 +153,7 @@ router.patch(
 
     q.setOptions({ lean: true });
 
-    q.then(post => res.json(post)).catch(next);
+    q.then(comment => res.json(comment)).catch(next);
   }
 );
 

@@ -46,7 +46,7 @@ Comment {
 
 ## Workspace
 
-Use an Authorization header to work with your own data. If you want to share data with all the other fine folks in this course, feel free to leave out the authorization header. If you want to share a workspace, get a group of people to use the same Authorization header.
+Use an Authorization header to work with your own data. If you want to share data with all the other fine folks in this course, feel free to leave out the authorization header. If you want to share a private workspace, get a group of people to use the same Authorization header.
 
 Keep your Categories, Posts, and Comments to yourself by setting an unguessable Authorization header
 

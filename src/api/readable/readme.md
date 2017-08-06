@@ -66,13 +66,23 @@ fetch(url)
 
 # API
 
-Base URI
+**Base URI**
 
 `https://udacity-reactnd-server.herokuapp.com/api/readable`
+
+## Categories
 
 #### `GET /categories`
 
 Get all of the categories available for the app.
+
+**Response**
+
+An array of 0 or more categories
+
+```
+[ Category* ]
+```
 
 #### `POST /categories`
 
@@ -82,13 +92,39 @@ Param | Type | Notes
 ----- | ---- | -----
 Name | String |
 
+**Response**
+
+The newly created category along with it's generated `_id`, `timestamp`, and `path`
+
+```
+Category
+```
+
 #### `GET /categories/:_id/posts`
 
 Get all of the posts for a particular category by \_id
 
+**Response**
+
+An array of 0 or more posts for the category
+
+```
+[ Post* ]
+```
+
+## Posts
+
 #### `GET /posts`
 
 Get all of the posts. Useful for the main page when no category is selected.
+
+**Response**
+
+An array of 0 or more posts
+
+```
+[ Post* ]
+```
 
 #### `POST /posts`
 
@@ -101,9 +137,24 @@ body | String |
 owner | String |
 categoryId | String<MongoId> | must exist in categories
 
+**Response**
+
+```
+{
+  post: Post,
+  category: Category{ _id, numberOfPosts }
+}
+```
+
 #### `GET /posts/:_id`
 
 Get the details of a single post
+
+**Response**
+
+```
+Post
+```
 
 #### `PATCH /posts/:_id`
 
@@ -114,6 +165,14 @@ Param | Type | Notes
 title | String |
 body | String |
 
+**Response**
+
+The updated post
+
+```
+Post{ _id, title, body }
+```
+
 #### `PATCH /posts/:_id/vote`
 
 Used for voting on a post
@@ -122,13 +181,40 @@ Param | Type | Notes
 ----- | ---- | -----
 option | String | Either "upVote" or "downVote"
 
+**Response**
+
+A post with its updated `voteScore`
+
+```
+Post{ _id, voteScore }
+```
+
 #### `DELETE /posts/:_id`
 
 Sets the deleted flag for a post to `true`. Sets the parentDeleted flag for all child comments to `true`
 
+**Response**
+
+```
+{
+  post: Post{ _id },
+  category: Category{ _id, numberOfPosts }
+}
+```
+
 #### `GET /posts/:_id/comments`
 
 Get all the comments for a single post
+
+**Response**
+
+An array of 0 or more comments for the post
+
+```
+[ Comment* ]
+```
+
+## Comments
 
 #### `POST /comments`
 
@@ -140,9 +226,23 @@ body | String |
 owner | String |
 parentId | String<MongoId> | Should match a post id in the database
 
+**Response**
+
+The new post along with it's generated `_id` and `timestamp`
+
+```
+Comment
+```
+
 #### `GET /comments/:_id`
 
 Get the details for a single comment
+
+**Response**
+
+```
+Comment
+```
 
 #### `PATCH /comments/:_id`
 
@@ -152,6 +252,14 @@ Param | Type | Notes
 ----- | ---- | -----
 body | String |
 
+**Response**
+
+The updated comment
+
+```
+Comment{ _id, body }
+```
+
 #### `PATCH /comments/:_id/vote`
 
 Used for voting on a comment.
@@ -160,6 +268,22 @@ Param | Type | Notes
 ----- | ---- | -----
 option | String | Either "upVote" or "downVote"
 
+**Response**
+
+A comment with its updated `voteScore`
+
+```
+Post{ _id, voteScore }
+```
+
 #### `DELETE /comments/:_id`
 
 Sets a comment's deleted flag to `true`
+
+**Response**
+
+The deleted comment
+
+```
+Comment{ _id }
+```

@@ -141,14 +141,13 @@ router.patch(
       },
       // Changes to apply
       {
-        timestamp: Date.now(),
         body,
       },
       {
         // Return modified doc
         new: true,
         // Projection
-        fields: `_id timestamp body`,
+        fields: `_id body`,
       }
     );
 

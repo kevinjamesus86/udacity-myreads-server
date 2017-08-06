@@ -318,6 +318,7 @@ router.delete(
     const { _id } = req.params;
 
     const updates = Promise.all([
+      // Delete the post
       Post.findOneAndUpdate(
         // Doc to update
         {
@@ -331,12 +332,11 @@ router.delete(
           deleted: true,
         },
         {
-          // Return modified doc
-          new: true,
           // Projection
           fields: `_id`,
         }
       ),
+      // Mark comments as deleted via. parentDeleted
       Comment.update(
         // Doc to update
         {
@@ -350,23 +350,40 @@ router.delete(
           parentDeleted: true,
         },
         {
-          // Return modified doc
-          new: true,
           // Update many
           multi: true,
           // Projection
-          fields: `_id`,
+          fields: `_id categoryId`,
         }
       ),
-    ]);
+    ]).then(([post]) =>
+      // Decrement the number of posts for the post's category
+      Category.findOneAndUpdate(
+        // Doc to update
+        {
+          _id: post.categoryId,
+          auth: auth || {
+            $exists: false,
+          },
+        },
+        // Changes to apply
+        {
+          numberOfPosts: {
+            $inc: -1,
+          },
+        },
+        {
+          // Return modified doc
+          new: true,
+          // Projection
+          fields: `_id numberOfPosts`,
+        }
+      ).then(category => ({
+        category,
+        post,
+      }))
+    );
 
-    updates
-      .then(([post, comments]) =>
-        res.json({
-          post,
-          comments,
-        })
-      )
-      .catch(next);
+    updates.then(ret => res.json(ret)).catch(next);
   }
 );

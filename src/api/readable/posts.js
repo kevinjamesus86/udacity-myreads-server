@@ -135,7 +135,7 @@ router.post(
           $exists: false,
         },
       },
-      `_id`,
+      `_id path`,
       {
         lean: true,
       }
@@ -150,13 +150,14 @@ router.post(
             message: `Unable to create Post, Category<${categoryId}> does not exist.`,
           })
       )
-      .then(() =>
+      .then(({ path: category }) =>
         Post.create({
           auth,
           title,
           body,
           owner,
           categoryId,
+          category,
         })
       )
       .then(post =>

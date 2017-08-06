@@ -110,6 +110,7 @@ const dropItLikeItsHot = async auth => {
     new Post(
       assign({}, maybeAddAuth(post), {
         categoryId: categories[index]._id,
+        category: categories[index].path,
       })
     ).toJSON()
   );

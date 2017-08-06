@@ -27,6 +27,10 @@ const postSchema = new Schema({
     required: true,
   },
 
+  category: {
+    type: String,
+  },
+
   categoryId: {
     type: Schema.Types.ObjectId,
     ref: 'Category',

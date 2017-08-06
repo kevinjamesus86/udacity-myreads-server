@@ -19,6 +19,7 @@ Category {
 Post {
   _id: String<MongoId>
   categoryId: String<MongoId> # Category._id
+  category: String # Category name for display
   title: String
   body: String
   author: String

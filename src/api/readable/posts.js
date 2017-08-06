@@ -72,11 +72,11 @@ router.get(
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { _id: postId } = req.params;
+    const { _id: parentId } = req.params;
 
     Comment.find(
       {
-        postId,
+        parentId,
         deleted: false,
         auth: auth || {
           $exists: false,
@@ -340,7 +340,7 @@ router.delete(
       Comment.update(
         // Doc to update
         {
-          postId: _id,
+          parentId: _id,
           auth: auth || {
             $exists: false,
           },

@@ -11,7 +11,7 @@ const { Post, Comment } = require('./models');
 // PARAMS:
 // body: String
 // owner: String
-// postId: Should match a post id in the database.
+// parentId: Should match a post id in the database.
 router.post(
   '/comments',
   bodyParser.json(),
@@ -28,20 +28,20 @@ router.post(
       in: 'body',
       notEmpty: true,
     },
-    postId: {
+    parentId: {
       in: 'body',
       isMongoId: true,
     },
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { body, owner, postId } = req.body;
+    const { body, owner, parentId } = req.body;
 
     // Assert that the Post exists
     // FKs would be nice here..
     Post.findOne(
       {
-        _id: postId,
+        _id: parentId,
         auth: auth || {
           $exists: false,
         },
@@ -58,7 +58,7 @@ router.post(
           // https://httpstatuses.com/422
           Promise.reject({
             status: 422,
-            message: `Unable to create Comment, Post<${postId}> does not exist.`,
+            message: `Unable to create Comment, Post<${parentId}> does not exist.`,
           })
       )
       .then(() =>
@@ -66,7 +66,7 @@ router.post(
           auth,
           body,
           owner,
-          postId,
+          parentId,
         })
       )
       .then(comment => res.json(comment))

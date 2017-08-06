@@ -33,7 +33,7 @@ Post {
 ```
 Comment {
   _id: String<MongoId>
-  postId: String<MongoId> # Post._id
+  parentId: String<MongoId> # Post._id
   title: String
   body: String
   author: String
@@ -236,7 +236,7 @@ Param | Type | Notes
 ----- | ---- | -----
 body | String |
 owner | String |
-postId | String<MongoId> | Should match a post id in the database
+parentId | String<MongoId> | Should match a post id in the database
 
 **Response**
 

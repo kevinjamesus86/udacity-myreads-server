@@ -5,7 +5,6 @@ const bookSchema = new Schema(
   {
     _id: {
       type: String,
-      alias: 'id',
     },
 
     term: {

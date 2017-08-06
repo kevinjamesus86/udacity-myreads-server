@@ -1,3 +1,4 @@
+const { stringify } = require('querystring');
 const { Router } = require('express');
 const router = (module.exports = new Router());
 const validate = require('../middleware/validate');
@@ -54,6 +55,23 @@ router.get(
           })
           .then(books => Object.assign(r, { items: books }))
       )
+      .then(r => {
+        let next;
+
+        if (r.totalItems > (page + 1) * limit) {
+          const params = {
+            page: page + 1,
+            query,
+            limit,
+          };
+          next = {
+            href: `/api/myreads/books/search?` + stringify(params),
+            params,
+          };
+        }
+
+        return Object.assign({ next }, r);
+      })
       .then(r => res.json(r))
       .catch(next);
   }

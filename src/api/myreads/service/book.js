@@ -1,19 +1,31 @@
 const { Book } = require('../models');
 
-exports.search = ({ limit, query }) => {
-  const options = {
-    lean: true,
-    limit,
-  };
-  query = {
-    $text: { $search: query },
-  };
-  return Book.find(query, {}, options).then(items => {
-    return {
-      // Search result
-      items,
-    };
-  });
+exports.search = ({ page, limit, query }) => {
+  return Book.aggregate([
+    {
+      $match: {
+        $text: { $search: query },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalItems: { $sum: 1 },
+        items: { $push: '$$ROOT' },
+      },
+    },
+    {
+      $project: {
+        totalItems: 1,
+        items: {
+          $slice: ['$items', page * limit, limit],
+        },
+      },
+    },
+  ]).then(([{ totalItems, items }]) => ({
+    totalItems,
+    items,
+  }));
 };
 
 exports.findOne = opt => {

@@ -81,6 +81,7 @@ module.exports = (req, res, next) => {
 };
 
 const dropItLikeItsHot = async auth => {
+  console.log(`Readable: seeding Auth<${auth}>`);
   const maybeAddAuth = authAdder(auth);
 
   /////////////////

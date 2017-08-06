@@ -46,8 +46,6 @@ Comment {
 
 ## Workspace
 
-Use an Authorization header to work with your own data. If you want to share data with all the other fine folks in this course, feel free to leave out the authorization header. If you want to share a private workspace, get a group of people to use the same Authorization header.
-
 Keep your Categories, Posts, and Comments to yourself by setting an unguessable Authorization header
 
 ```js
@@ -58,7 +56,7 @@ fetch(url, {
 })
 ```
 
-Share a workspace by coordinating the Authorization header
+Share a workspace with others by coordinating the Authorization header
 
 ```js
 fetch(url, {
@@ -68,7 +66,7 @@ fetch(url, {
 })
 ```
 
-Share your Categories, Posts, and Comments with ALL unauthed users by omitting the Authorization header altogether. This strategy will only pull Categories, Posts, and Comment with the auth has not been set - it will not include private workspaces
+Share your Categories, Posts, and Comments with ALL unauthed users by omitting the Authorization header altogether. This strategy will only pull Categories, Posts, and Comment where the Authorization header has not been set - it will not include private workspaces
 
 ```js
 fetch(url)

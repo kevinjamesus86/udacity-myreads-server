@@ -147,6 +147,8 @@ categoryId | String<MongoId> | must exist in categories
 
 **Response**
 
+An object containing the new post and updated category properties
+
 ```
 {
   post: Post,
@@ -203,6 +205,8 @@ Sets the deleted flag for a post to `true`. Sets the parentDeleted flag for all 
 
 **Response**
 
+An object containing the removed post and updated category properties
+
 ```
 {
   post: Post{ _id },
@@ -236,7 +240,7 @@ parentId | String<MongoId> | Should match a post id in the database
 
 **Response**
 
-The new post along with it's generated `_id` and `timestamp`
+The new comment along with it's generated `_id` and `timestamp`
 
 ```
 Comment

@@ -29,14 +29,14 @@ const initPosts = [
     timestamp: 1467166872634,
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
-    author: 'thingtwo',
+    author: 'Jason',
     voteScore: 6,
   },
   {
     timestamp: 1468479767190,
     title: 'Learn Redux in 10 minutes!',
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
-    author: 'thingone',
+    author: 'Stewie',
     voteScore: -5,
   },
 ];
@@ -45,13 +45,11 @@ const initComments = [
   {
     timestamp: 1468166872634,
     body: 'Hi there! I am a COMMENT.',
-    author: 'thingtwo',
     voteScore: 6,
   },
   {
     timestamp: 1469479767190,
     body: 'Comments. Are. Cool.',
-    author: 'thingone',
     voteScore: -5,
   },
 ];
@@ -108,7 +106,7 @@ const dropItLikeItsHot = async auth => {
 
   const posts = initPosts.map((post, index) =>
     new Post(
-      assign({}, maybeAddAuth(post), {
+      assign(maybeAddAuth(post), {
         categoryId: categories[index]._id,
         category: categories[index].path,
       })
@@ -129,13 +127,15 @@ const dropItLikeItsHot = async auth => {
   // Comments
   /////////////////
 
-  const comments = initComments.map(comment =>
-    new Comment(
-      assign({}, maybeAddAuth(comment), {
-        parentId: sampleOne(posts)._id,
+  const comments = initComments.map(comment => {
+    const { author, _id: parentId } = sampleOne(posts);
+    return new Comment(
+      assign(maybeAddAuth(comment), {
+        parentId,
+        author,
       })
-    ).toJSON()
-  );
+    ).toJSON();
+  });
 
   await Comment.bulkWrite(
     comments.map(comment => ({

@@ -78,6 +78,7 @@ router.get(
       {
         parentId,
         deleted: false,
+        parentDeleted: false,
         auth: auth || {
           $exists: false,
         },
@@ -363,9 +364,6 @@ router.delete(
         // Doc to update
         {
           _id: post.categoryId,
-          auth: auth || {
-            $exists: false,
-          },
         },
         // Changes to apply
         {

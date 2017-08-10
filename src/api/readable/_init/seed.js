@@ -3,8 +3,6 @@ const { Category, Post, Comment } = require('../models');
 
 const initializedAuths = new Map();
 
-const sampleOne = arr => arr[Math.floor(Math.random() * arr.length)];
-
 const authAdder = auth => to => (auth ? assign({ auth }, to) : assign({}, to));
 
 const initCategories = [
@@ -31,6 +29,7 @@ const initPosts = [
     body: 'Everyone says so after all.',
     author: 'Jason',
     voteScore: 6,
+    numberOfComments: 1,
   },
   {
     timestamp: 1468479767190,
@@ -38,6 +37,7 @@ const initPosts = [
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
     author: 'Stewie',
     voteScore: -5,
+    numberOfComments: 1,
   },
 ];
 
@@ -127,8 +127,8 @@ const dropItLikeItsHot = async auth => {
   // Comments
   /////////////////
 
-  const comments = initComments.map(comment => {
-    const { author, _id: parentId } = sampleOne(posts);
+  const comments = initComments.map((comment, index) => {
+    const { author, _id: parentId } = posts[index];
     return new Comment(
       assign(maybeAddAuth(comment), {
         parentId,

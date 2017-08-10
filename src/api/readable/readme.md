@@ -103,7 +103,7 @@ Name | String |
 
 **Response**
 
-The newly created category along with it's generated `_id`, `timestamp`, and `path`
+The newly created category along with its generated `_id`, `timestamp`, and `path`
 
 ```
 Category
@@ -241,10 +241,13 @@ parentId | String<MongoId> | Should match a post id in the database
 
 **Response**
 
-The new comment along with it's generated `_id` and `timestamp`
+An object containing the new comment and updated parent Post properties. The new comment includes its newly generated `_id` and `timestamp`
 
 ```
-Comment
+{
+  comment: Comment,
+  post: Post{ _id, numberOfComments }
+}
 ```
 
 #### `GET /comments/:_id`
@@ -295,8 +298,11 @@ Sets a comment's deleted flag to `true`
 
 **Response**
 
-The deleted comment
+An object containing the deleted Comment and updated parent Post properties
 
 ```
-Comment{ _id }
+{
+  comment: Comment{ _id },
+  post: Post{ _id, numberOfComments }
+}
 ```

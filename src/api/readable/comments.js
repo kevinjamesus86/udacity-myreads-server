@@ -69,7 +69,31 @@ router.post(
           parentId,
         })
       )
-      .then(comment => res.json(comment))
+      .then(comment =>
+        // Update the comment count for the parent post
+        Post.findOneAndUpdate(
+          // Doc to update
+          {
+            _id: parentId,
+          },
+          // Changes to apply
+          {
+            $inc: {
+              numberOfComments: 1,
+            },
+          },
+          {
+            // Return modified doc
+            new: true,
+            // Projection
+            select: '_id numberOfComments',
+          }
+        ).then(post => ({
+          post,
+          comment,
+        }))
+      )
+      .then(ret => res.json(ret))
       .catch(next);
   }
 );
@@ -93,6 +117,7 @@ router.get(
       {
         _id,
         deleted: false,
+        parentDeleted: false,
         auth: auth || {
           $exists: false,
         },
@@ -180,7 +205,7 @@ router.patch(
     const { _id } = req.params;
     const { option } = req.body;
 
-    const q = Comment.findOneAndUpdate(
+    const query = Comment.findOneAndUpdate(
       // Doc to update
       {
         _id,
@@ -202,9 +227,9 @@ router.patch(
       }
     );
 
-    q.setOptions({ lean: true });
+    query.setOptions({ lean: true });
 
-    q.then(comment => res.json(comment)).catch(next);
+    query.then(comment => res.json(comment)).catch(next);
   }
 );
 
@@ -223,7 +248,7 @@ router.delete(
     const { auth } = res.locals;
     const { _id } = req.params;
 
-    const q = Comment.findOneAndUpdate(
+    const query = Comment.findOneAndUpdate(
       // Doc to update
       {
         _id,
@@ -237,12 +262,38 @@ router.delete(
       },
       {
         // Projection
-        fields: `_id`,
+        fields: `_id parentId`,
       }
     );
 
-    q.setOptions({ lean: true });
+    query.setOptions({ lean: true });
 
-    q.then(comment => res.json(comment)).catch(next);
+    query
+      .then(comment =>
+        // Reduce the comment count for the parent post
+        Post.findOneAndUpdate(
+          // Doc to update
+          {
+            _id: comment.parentId,
+          },
+          // Changes to apply
+          {
+            $inc: {
+              numberOfComments: -1,
+            },
+          },
+          {
+            // Return modified doc
+            new: true,
+            // Projection
+            select: '_id numberOfComments',
+          }
+        ).then(post => ({
+          post,
+          comment,
+        }))
+      )
+      .then(ret => res.json(ret))
+      .catch(next);
   }
 );

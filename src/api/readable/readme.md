@@ -24,6 +24,7 @@ Post {
   body: String
   author: String
   voteScore: Number
+  numberOfComments: Number
   timestamp: Date
   *deleted: Boolean
 }

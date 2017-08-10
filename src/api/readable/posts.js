@@ -54,6 +54,16 @@ router.get(
         lean: true,
       }
     )
+      .then(
+        post =>
+          post ||
+          // 404 NOT FOUND
+          // https://httpstatuses.com/404
+          Promise.reject({
+            status: 404,
+            message: `Unable to GET Post, Post<${_id}> does not exist.`,
+          })
+      )
       .then(post => res.json(post))
       .catch(next);
   }
@@ -74,20 +84,42 @@ router.get(
     const { auth } = res.locals;
     const { _id: parentId } = req.params;
 
-    Comment.find(
+    // Make sure the post exists
+    Post.findOne(
       {
-        parentId,
+        _id: parentId,
         deleted: false,
-        parentDeleted: false,
         auth: auth || {
           $exists: false,
         },
       },
-      {},
+      `_id`,
       {
         lean: true,
       }
     )
+      .then(
+        post =>
+          post ||
+          // 404 NOT FOUND
+          // https://httpstatuses.com/404
+          Promise.reject({
+            status: 404,
+            message: `Unable to GET Comments, Post<${parentId}> does not exist.`,
+          })
+      )
+      .then(() =>
+        Comment.find(
+          {
+            parentId,
+            deleted: false,
+          },
+          {},
+          {
+            lean: true,
+          }
+        )
+      )
       .then(comments => res.json(comments))
       .catch(next);
   }
@@ -167,9 +199,6 @@ router.post(
           // Doc to update
           {
             _id: categoryId,
-            auth: auth || {
-              $exists: false,
-            },
           },
           // Changes to apply
           {
@@ -222,7 +251,7 @@ router.patch(
     const { _id } = req.params;
     const { title, body } = req.body;
 
-    const q = Post.findOneAndUpdate(
+    const query = Post.findOneAndUpdate(
       // Doc to update
       {
         _id,
@@ -243,9 +272,9 @@ router.patch(
       }
     );
 
-    q.setOptions({ lean: true });
+    query.setOptions({ lean: true });
 
-    q.then(post => res.json(post)).catch(next);
+    query.then(post => res.json(post)).catch(next);
   }
 );
 
@@ -275,7 +304,7 @@ router.patch(
     const { _id } = req.params;
     const { option } = req.body;
 
-    const q = Post.findOneAndUpdate(
+    const query = Post.findOneAndUpdate(
       // Doc to update
       {
         _id,
@@ -297,9 +326,9 @@ router.patch(
       }
     );
 
-    q.setOptions({ lean: true });
+    query.setOptions({ lean: true });
 
-    q.then(post => res.json(post)).catch(next);
+    query.then(post => res.json(post)).catch(next);
   }
 );
 
@@ -315,7 +344,7 @@ router.delete(
       isMongoId: true,
     },
   }),
-  async (req, res, next) => {
+  (req, res, next) => {
     const { auth } = res.locals;
     const { _id } = req.params;
 
@@ -335,7 +364,7 @@ router.delete(
         },
         {
           // Projection
-          fields: `_id`,
+          fields: `_id categoryId`,
         }
       ),
       // Mark comments as deleted via. parentDeleted
@@ -355,10 +384,10 @@ router.delete(
           // Update many
           multi: true,
           // Projection
-          fields: `_id categoryId`,
+          fields: `_id`,
         }
       ),
-    ]).then(([post]) =>
+    ]).then(([post, comments]) =>
       // Decrement the number of posts for the post's category
       Category.findOneAndUpdate(
         // Doc to update
@@ -380,6 +409,7 @@ router.delete(
       ).then(category => ({
         category,
         post,
+        comments,
       }))
     );
 

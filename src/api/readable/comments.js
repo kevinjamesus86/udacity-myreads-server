@@ -244,7 +244,7 @@ router.delete(
       isMongoId: true,
     },
   }),
-  async (req, res, next) => {
+  (req, res, next) => {
     const { auth } = res.locals;
     const { _id } = req.params;
 

@@ -206,12 +206,13 @@ Sets the deleted flag for a post to `true`. Sets the parentDeleted flag for all 
 
 **Response**
 
-An object containing the removed post and updated category properties
+An object containing the removed post, updated category, and 0 or more affected comments
 
 ```
 {
   post: Post{ _id },
-  category: Category{ _id, numberOfPosts }
+  category: Category{ _id, numberOfPosts },
+  comments: [ Comment{ _id }* ]
 }
 ```
 

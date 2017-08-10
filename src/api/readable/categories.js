@@ -41,19 +41,40 @@ router.get(
     const { auth } = res.locals;
     const { _id: categoryId } = req.params;
 
-    Post.find(
+    Category.findOne(
       {
-        categoryId,
-        deleted: false,
+        _id: categoryId,
         auth: auth || {
           $exists: false,
         },
       },
-      {},
+      `_id`,
       {
         lean: true,
       }
     )
+      .then(
+        category =>
+          category ||
+          // 404 NOT FOUND
+          // https://httpstatuses.com/404
+          Promise.reject({
+            status: 404,
+            message: `Unable to GET Posts, Category<${categoryId}> does not exist.`,
+          })
+      )
+      .then(() =>
+        Post.find(
+          {
+            categoryId,
+            deleted: false,
+          },
+          {},
+          {
+            lean: true,
+          }
+        )
+      )
       .then(posts => res.json(posts))
       .catch(next);
   }

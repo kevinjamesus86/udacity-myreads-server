@@ -3,6 +3,7 @@ const router = (module.exports = new Router());
 const bodyParser = require('body-parser');
 const validate = require('../middleware/validate');
 const { Post, Comment } = require('./models');
+const omitAuth = require('../util/omit-auth');
 
 // POST /comments
 // USAGE:
@@ -69,6 +70,7 @@ router.post(
           parentId,
         })
       )
+      .then(omitAuth)
       .then(comment =>
         // Update the comment count for the parent post
         Post.findOneAndUpdate(

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const validate = require('../middleware/validate');
 const { Category, Post } = require('./models');
 const slugify = require('slugify');
+const omitAuth = require('../util/omit-auth');
 
 // GET /categories
 // USAGE:
@@ -105,6 +106,7 @@ router.post(
       name,
       path: slugify(name),
     })
+      .then(omitAuth)
       .then(category => res.json(category))
       .catch(next);
   }

@@ -3,6 +3,7 @@ const router = (module.exports = new Router());
 const bodyParser = require('body-parser');
 const validate = require('../middleware/validate');
 const { Category, Post, Comment } = require('./models');
+const omitAuth = require('../util/omit-auth');
 
 // GET /posts
 // USAGE:
@@ -193,6 +194,7 @@ router.post(
           category,
         })
       )
+      .then(omitAuth)
       .then(post =>
         // Update the post count for this category
         Category.findOneAndUpdate(

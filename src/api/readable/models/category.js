@@ -23,13 +23,10 @@ const categorySchema = new Schema({
   },
 });
 
-categorySchema.index(
-  {
-    auth: 1,
-    name: 1,
-  },
-  { unique: true }
-);
+categorySchema.index({
+  _id: 1,
+  auth: 1,
+});
 
 const Category = mongoose.model('Category', categorySchema);
 

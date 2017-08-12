@@ -46,6 +46,11 @@ const commentSchema = new Schema({
   },
 });
 
+commentSchema.index({
+  _id: 1,
+  auth: 1,
+});
+
 const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = {

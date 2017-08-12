@@ -53,6 +53,11 @@ const postSchema = new Schema({
   },
 });
 
+postSchema.index({
+  _id: 1,
+  auth: 1,
+});
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = {

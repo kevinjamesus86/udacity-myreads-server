@@ -10,15 +10,18 @@ const initCategories = [
     name: 'react',
     path: 'react',
     numberOfPosts: 1,
+    __v: 0,
   },
   {
     name: 'redux',
     path: 'redux',
     numberOfPosts: 1,
+    __v: 0,
   },
   {
     name: 'udacity',
     path: 'udacity',
+    __v: 0,
   },
 ];
 
@@ -30,6 +33,7 @@ const initPosts = [
     author: 'Jason',
     voteScore: 6,
     numberOfComments: 1,
+    __v: 0,
   },
   {
     timestamp: 1468479767190,
@@ -38,6 +42,7 @@ const initPosts = [
     author: 'Stewie',
     voteScore: -5,
     numberOfComments: 1,
+    __v: 0,
   },
 ];
 
@@ -46,11 +51,13 @@ const initComments = [
     timestamp: 1468166872634,
     body: 'Hi there! I am a COMMENT.',
     voteScore: 6,
+    __v: 0,
   },
   {
     timestamp: 1469479767190,
     body: 'Comments. Are. Cool.',
     voteScore: -5,
+    __v: 0,
   },
 ];
 

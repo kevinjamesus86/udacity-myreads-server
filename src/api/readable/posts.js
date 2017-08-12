@@ -3,7 +3,7 @@ const router = (module.exports = new Router());
 const bodyParser = require('body-parser');
 const validate = require('../middleware/validate');
 const { Category, Post, Comment } = require('./models');
-const omitAuth = require('../util/omit-auth');
+const omitAuth = require('./util/omit-auth');
 
 // GET /posts
 // USAGE:

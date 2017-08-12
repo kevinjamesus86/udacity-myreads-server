@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const validate = require('../middleware/validate');
 const { Category, Post } = require('./models');
 const slugify = require('slugify');
-const omitAuth = require('../util/omit-auth');
+const omitAuth = require('./util/omit-auth');
 
 // GET /categories
 // USAGE:

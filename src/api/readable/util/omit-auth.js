@@ -1,10 +1,9 @@
 module.exports = item => {
   if ('auth' in item) {
-    // hide it
-    Object.defineProperty(item, 'auth', {
-      enumerable: false,
-      value: item.auth,
-    });
+    // Oh mongoose
+    item = item.toJSON ? item.toJSON() : item;
+    // Undefined doesn't get serialized
+    item.auth = undefined;
   }
   return item;
 };

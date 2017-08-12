@@ -291,7 +291,7 @@ option | String | Either "upVote" or "downVote"
 A comment with its updated `voteScore`
 
 ```
-Post{ _id, voteScore }
+Comment{ _id, voteScore }
 ```
 
 #### `DELETE /comments/:_id`

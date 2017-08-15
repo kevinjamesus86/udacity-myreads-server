@@ -389,7 +389,7 @@ router.delete(
           fields: `_id`,
         }
       ),
-    ]).then(([post, comments]) =>
+    ]).then(([post]) =>
       // Decrement the number of posts for the post's category
       Category.findOneAndUpdate(
         // Doc to update
@@ -411,7 +411,6 @@ router.delete(
       ).then(category => ({
         category,
         post,
-        comments,
       }))
     );
 

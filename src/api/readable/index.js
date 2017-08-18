@@ -18,6 +18,7 @@ router.use(
   // [authed] user with some categories, posts, and comments
   require('./_init/seed'),
   // Routes
+  require('./identicon'),
   require('./categories'),
   require('./posts'),
   require('./comments')

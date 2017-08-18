@@ -29,7 +29,8 @@ const initPosts = [
   {
     timestamp: 1467166872634,
     title: 'Udacity is the best place to learn React',
-    body: 'Tempor health goth next level, everyday carry vape offal nisi lumbersexual PBR&B 3 wolf moon four loko yuccie ex put a bird on it. Tumblr gochujang snackwave hot chicken pop-up. Narwhal in meditation selvage jean shorts PBR&B elit mustache art party sed shaman meh roof party. VHS echo park cupidatat quinoa. In actually kombucha marfa cray. Whatever letterpress irure elit.',
+    body:
+      'Tempor health goth next level, everyday carry vape offal nisi lumbersexual PBR&B 3 wolf moon four loko yuccie ex put a bird on it. Tumblr gochujang snackwave hot chicken pop-up. Narwhal in meditation selvage jean shorts PBR&B elit mustache art party sed shaman meh roof party. VHS echo park cupidatat quinoa. In actually kombucha marfa cray. Whatever letterpress irure elit.',
     author: 'Jason',
     voteScore: 5,
     numberOfComments: 1,
@@ -38,7 +39,8 @@ const initPosts = [
   {
     timestamp: 1468479767190,
     title: 'Learn Redux in 10 minutes!',
-    body: 'Hell of irure ea do stumptown gluten-free. Organic kombucha master cleanse cillum, live-edge reprehenderit voluptate chillwave microdosing DIY consectetur. Snackwave forage raclette wolf, skateboard nulla occaecat sed reprehenderit DIY authentic truffaut.',
+    body:
+      'Hell of irure ea do stumptown gluten-free. Organic kombucha master cleanse cillum, live-edge reprehenderit voluptate chillwave microdosing DIY consectetur. Snackwave forage raclette wolf, skateboard nulla occaecat sed reprehenderit DIY authentic truffaut.',
     author: 'Stewie',
     voteScore: 2,
     numberOfComments: 1,
@@ -49,13 +51,15 @@ const initPosts = [
 const initComments = [
   {
     timestamp: 1468166872634,
-    body: 'Tattooed single-origin coffee lo-fi keytar poutine. Mollit viral magna raclette, sed est ut gluten-free labore in hot chicken retro. Hell of pickled enamel pin, four dollar toast id meditation bespoke minim drinking vinegar. Ut yuccie glossier, kogi aesthetic whatever small batch affogato duis seitan kinfolk est.',
+    body:
+      'Tattooed single-origin coffee lo-fi keytar poutine. Mollit viral magna raclette, sed est ut gluten-free labore in hot chicken retro. Hell of pickled enamel pin, four dollar toast id meditation bespoke minim drinking vinegar. Ut yuccie glossier, kogi aesthetic whatever small batch affogato duis seitan kinfolk est.',
     voteScore: 6,
     __v: 0,
   },
   {
     timestamp: 1469479767190,
-    body: 'Literally food truck velit semiotics lomo, non street art cloud bread laboris blog air plant franzen shabby chic narwhal eu. Ennui franzen ad, lorem scenester authentic pok pok kinfolk.',
+    body:
+      'Literally food truck velit semiotics lomo, non street art cloud bread laboris blog air plant franzen shabby chic narwhal eu. Ennui franzen ad, lorem scenester authentic pok pok kinfolk.',
     voteScore: 3,
     __v: 0,
   },

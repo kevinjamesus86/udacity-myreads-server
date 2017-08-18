@@ -1127,7 +1127,7 @@ iconv-lite@^0.4.17:
 
 identicon.js@^2.3.1:
   version "2.3.1"
-  resolved "http://artifactory/api/npm/npm-virtual/identicon.js/-/identicon.js-2.3.1.tgz#0f16a0dd5e61e1a89699400cc192af4445506e5b"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/identicon.js-2.3.1.tgz#0f16a0dd5e61e1a89699400cc192af4445506e5b"
 
 ienoopen@1.0.0:
   version "1.0.0"

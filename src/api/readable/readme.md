@@ -144,7 +144,7 @@ Param | Type | Notes
 ----- | ---- | -----
 title | String |
 body | String |
-owner | String |
+author | String |
 categoryId | String<MongoId> | must exist in categories
 
 **Response**
@@ -237,7 +237,7 @@ Add a comment to a post
 Param | Type | Notes
 ----- | ---- | -----
 body | String |
-owner | String |
+author | String |
 parentId | String<MongoId> | Should match a post id in the database
 
 **Response**

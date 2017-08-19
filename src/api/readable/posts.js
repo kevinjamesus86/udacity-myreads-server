@@ -133,7 +133,7 @@ router.get(
 // PARAMS:
 // title - String
 // body - String
-// owner - String
+// author - String
 // categoryId - String<MongoId> # Must exist in the categories collection
 router.post(
   '/posts',
@@ -147,7 +147,7 @@ router.post(
       in: 'body',
       notEmpty: true,
     },
-    owner: {
+    author: {
       in: 'body',
       notEmpty: true,
     },
@@ -158,7 +158,7 @@ router.post(
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { title, body, owner, categoryId } = req.body;
+    const { title, body, author, categoryId } = req.body;
 
     // Assert that the category exists
     // FKs would be nice here..
@@ -189,7 +189,7 @@ router.post(
           auth,
           title,
           body,
-          owner,
+          author,
           categoryId,
           category,
         })

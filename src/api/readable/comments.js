@@ -11,7 +11,7 @@ const omitAuth = require('./util/omit-auth');
 //
 // PARAMS:
 // body: String
-// owner: String
+// author: String
 // parentId: Should match a post id in the database.
 router.post(
   '/comments',
@@ -25,7 +25,7 @@ router.post(
       in: 'body',
       notEmpty: true,
     },
-    owner: {
+    author: {
       in: 'body',
       notEmpty: true,
     },
@@ -36,7 +36,7 @@ router.post(
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { body, owner, parentId } = req.body;
+    const { body, author, parentId } = req.body;
 
     // Assert that the Post exists
     // FKs would be nice here..
@@ -66,7 +66,7 @@ router.post(
         Comment.create({
           auth,
           body,
-          owner,
+          author,
           parentId,
         })
       )

@@ -30,7 +30,7 @@ const commentSchema = new Schema({
 
   voteScore: {
     type: Number,
-    default: 1,
+    default: 0,
   },
 
   deleted: {

@@ -50,6 +50,7 @@ router.get(
 
     identicon
       .then(svg => {
+        res.set('Cache-Control', 'public, max-age=86400');
         res.set('Content-Type', 'image/svg+xml');
         res.send(svg);
       })

@@ -17,10 +17,6 @@ router.post(
   '/comments',
   bodyParser.json(),
   validate({
-    title: {
-      in: 'body',
-      notEmpty: true,
-    },
     body: {
       in: 'body',
       notEmpty: true,

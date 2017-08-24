@@ -10,7 +10,7 @@ const commentSchema = new Schema({
 
   timestamp: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 
   parentId: {

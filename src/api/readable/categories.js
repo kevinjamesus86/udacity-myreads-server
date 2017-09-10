@@ -62,7 +62,7 @@ router.get(
           // https://httpstatuses.com/404
           Promise.reject({
             status: 404,
-            message: `Unable to GET Posts, Category<${categoryId}> does not exist.`,
+            message: `Unable to GET Posts, Category<{name: ${name}}> does not exist.`,
           })
       )
       .then(({ _id: categoryId }) =>

@@ -110,9 +110,9 @@ The newly created category along with its generated `_id`, `timestamp`, and `pat
 Category
 ```
 
-#### `GET /categories/:_id/posts`
+#### `GET /categories/:name/posts`
 
-Get all of the posts for a particular category by \_id
+Get all of the posts for a particular category by category name
 
 **Response**
 

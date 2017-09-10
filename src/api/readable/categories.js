@@ -28,24 +28,24 @@ router.get('/categories', (req, res, next) => {
     .catch(next);
 });
 
-// GET /categories/:_id/posts
+// GET /categories/:name/posts
 // USAGE:
-// Get all of the posts for a particular category _id
+// Get all of the posts for a particular category name
 router.get(
-  '/categories/:_id/posts',
+  '/categories/:name/posts',
   validate({
-    _id: {
+    name: {
       in: 'params',
-      isMongoId: true,
+      notEmpty: true,
     },
   }),
   (req, res, next) => {
     const { auth } = res.locals;
-    const { _id: categoryId } = req.params;
+    const { name } = req.params;
 
     Category.findOne(
       {
-        _id: categoryId,
+        name,
         auth: auth || {
           $exists: false,
         },
@@ -65,7 +65,7 @@ router.get(
             message: `Unable to GET Posts, Category<${categoryId}> does not exist.`,
           })
       )
-      .then(() =>
+      .then(({ _id: categoryId }) =>
         Post.find(
           {
             categoryId,
